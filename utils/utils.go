@@ -23,7 +23,7 @@ const (
 type ControllerUtils struct{}
 
 func (u ControllerUtils) JSON(w http.ResponseWriter, status int, data interface{}) error {
-	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Content-Type", ContentTypeJSON)
 	w.WriteHeader(status)
 	return json.NewEncoder(w).Encode(&data)
 }
