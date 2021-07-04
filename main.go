@@ -21,7 +21,7 @@ func main() {
 
 	controller := controllers.NewChartController(&chartService, nomicsService)
 
-	server.HandleFunc("/generate_chart", controller.CreateChartHandler).Methods(http.MethodGet)
+	server.HandleFunc("/generate_chart", controller.CreateChartHandler).Methods(http.MethodPost)
 
 	log.Fatal(http.ListenAndServe(config.Port, server))
 
