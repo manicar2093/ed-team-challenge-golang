@@ -23,6 +23,8 @@ func main() {
 
 	server.HandleFunc("/generate_chart", controller.CreateChartHandler).Methods(http.MethodPost)
 
+	log.Printf("Server running on %s port\n", config.Port)
+
 	log.Fatal(http.ListenAndServe(config.Port, server))
 
 }
