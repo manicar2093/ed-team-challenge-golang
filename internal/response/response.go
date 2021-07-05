@@ -16,7 +16,7 @@ func JSON(w http.ResponseWriter, status int, data interface{}) error {
 // MakeDownloadableFile adds headers to dowload by client the data provided. The name of the file does not need extension due mimetype creates it
 func MakeDownloadableFile(w http.ResponseWriter, f io.WriterTo, name string, mimeType ContentType) error {
 
-	fileName := mimeType.CreateName(name)
+	fileName := fmt.Sprintf("%s.%s", name, mimeType.Extension)
 
 	w.Header().Set("Content-Type", mimeType.Mime)
 	w.Header().Set("Content-Disposition", fmt.Sprintf(`attachment;filename="%s"`, fileName))
