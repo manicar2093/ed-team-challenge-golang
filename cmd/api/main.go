@@ -16,8 +16,8 @@ func main() {
 
 	server := mux.NewRouter()
 
-	nomicsService := services.NewNomicsServiceWClient()
-	chartService := services.ChartService{}
+	nomicsService := services.NewNomicsServiceWClient(config.NominicsAPI)
+	chartService := services.ChartServiceImpl{}
 
 	controller := controllers.NewChartController(&chartService, nomicsService)
 

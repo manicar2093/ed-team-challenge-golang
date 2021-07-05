@@ -1,25 +1,24 @@
 package services
 
 import (
+	"bytes"
 	"fmt"
-	"os"
+	"io"
 	"sort"
-	"time"
 
-	"github.com/manicar2093/ed-team-go/config"
+	"github.com/manicar2093/ed-team-go/internal/stringutils"
 	"github.com/manicar2093/ed-team-go/models"
-	"github.com/manicar2093/ed-team-go/utils"
 	"github.com/wcharczuk/go-chart"
 )
 
-type ChartService struct{}
+type ChartServiceImpl struct{}
 
-func (c ChartService) CreateCryptoChart(d []models.NomicsResponse) (graphFile *os.File, e error) {
+func (c ChartServiceImpl) CreateCryptoChart(nomicsResponse []models.NomicsResponse) (io.Writer, error) {
 	var pricesData []chart.Series
 
 	var currencies []string
 
-	for i, v := range d {
+	for i, v := range nomicsResponse {
 		temp := chart.TimeSeries{
 			Name:    v.Currency,
 			XValues: v.Timestamps,
@@ -56,33 +55,30 @@ func (c ChartService) CreateCryptoChart(d []models.NomicsResponse) (graphFile *o
 		},
 		YAxis: chart.YAxis{
 			Style: chart.StyleShow(),
-			Range: c.createContinuousRangeY(d),
+			Range: c.createContinuousRangeY(nomicsResponse),
 		},
 		Series: pricesData,
 	}
 
-	graphFile, e = os.Create(fmt.Sprintf("%s/%s_%s.png", config.FilesPath, time.Now().Format(time.RFC3339), graphicName))
-	if e != nil {
-		return
-	}
+	graphFile := bytes.NewBuffer(nil)
 
-	e = graphic.Render(chart.PNG, graphFile)
-	if e != nil {
-		return
+	err := graphic.Render(chart.PNG, graphFile)
+	if err != nil {
+		return nil, err
 	}
-	return
+	return graphFile, nil
 }
 
-func (c ChartService) createChartName(currenciesNames []string) string {
+func (c ChartServiceImpl) createChartName(currenciesNames []string) string {
 	if len(currenciesNames) == 2 {
 		return fmt.Sprintf("%s and %s", currenciesNames[0], currenciesNames[1])
 	}
 	lastIndex := len(currenciesNames) - 2
-	separated := utils.SeparateByCommas(currenciesNames[:lastIndex]...)
+	separated := stringutils.SeparateByCommas(currenciesNames[:lastIndex]...)
 	return fmt.Sprintf("%s and %s", separated, currenciesNames[lastIndex+1])
 }
 
-func (c ChartService) createContinuousRangeY(d []models.NomicsResponse) *chart.ContinuousRange {
+func (c ChartServiceImpl) createContinuousRangeY(d []models.NomicsResponse) *chart.ContinuousRange {
 	var min []float64
 	var max []float64
 
@@ -98,12 +94,12 @@ func (c ChartService) createContinuousRangeY(d []models.NomicsResponse) *chart.C
 	}
 }
 
-func (c ChartService) minFloatSlice(f []float64) float64 {
+func (c ChartServiceImpl) minFloatSlice(f []float64) float64 {
 	sorted := sort.Float64Slice(sort.Float64Slice(f))
 	return sorted[0]
 }
 
-func (c ChartService) maxFloatSlice(f []float64) float64 {
+func (c ChartServiceImpl) maxFloatSlice(f []float64) float64 {
 	sorted := sort.Float64Slice(sort.Float64Slice(f))
 	return sorted[len(f)-1]
 }
