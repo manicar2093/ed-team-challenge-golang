@@ -42,6 +42,6 @@ func (c ChartController) CreateChartHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	response.MakeDownloadableFile(w, chartFile, response.ContentTypePNG)
+	response.MakeDownloadableFile(w, chartFile, "currency-chart", response.ContentTypePNG)
 
 }

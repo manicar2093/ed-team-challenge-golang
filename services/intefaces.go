@@ -1,13 +1,13 @@
 package services
 
 import (
-	"os"
+	"io"
 
 	"github.com/manicar2093/ed-team-go/models"
 )
 
 type ChartService interface {
-	CreateCryptoChart(nomicsResponse []models.NomicsResponse) (*os.File, error)
+	CreateCryptoChart(nomicsResponse []models.NomicsResponse) (io.WriterTo, error)
 }
 
 type NomicsService interface {

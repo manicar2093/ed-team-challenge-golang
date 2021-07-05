@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/manicar2093/ed-team-go/config"
-	"github.com/manicar2093/ed-team-go/internal/strings"
+	"github.com/manicar2093/ed-team-go/internal/stringsfmt"
 	"github.com/manicar2093/ed-team-go/models"
 )
 
@@ -48,7 +48,7 @@ func (n NomicsServiceImpl) createCurrenciesSparklineRequest(ccr models.CreateCha
 	if e != nil {
 		return nil, e
 	}
-	cryptoIDs := strings.SeparateByCommas(ccr.Cryptos...)
+	cryptoIDs := stringsfmt.SeparateByCommas(ccr.Cryptos...)
 	formatedDate := ccr.FromDate.Format(time.RFC3339)
 	p := r.URL.Query()
 
