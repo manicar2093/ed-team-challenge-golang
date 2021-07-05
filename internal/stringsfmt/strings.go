@@ -1,4 +1,4 @@
-package stringutils
+package stringsfmt
 
 import "strings"
 
