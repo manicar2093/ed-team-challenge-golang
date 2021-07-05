@@ -3,9 +3,9 @@ package config
 import "os"
 
 var (
-	NomicsKey   = ""
-	NominicsAPI = "https://api.nomics.com/v1/currencies/sparkline"
-	Port        = ":5000"
+	NomicsKey = ""
+	NomicsAPI = "https://api.nomics.com/v1/currencies/sparkline"
+	Port      = ":5000"
 )
 
 func InitEnv() {
