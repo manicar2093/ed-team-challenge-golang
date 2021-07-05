@@ -11,11 +11,11 @@ import (
 )
 
 type ChartController struct {
-	chartService  services.ChartService
+	chartService  services.ChartCreator
 	nomicsService services.NomicsService
 }
 
-func NewChartController(chartService services.ChartService, nomicsService services.NomicsService) *ChartController {
+func NewChartController(chartService services.ChartCreator, nomicsService services.NomicsService) *ChartController {
 	return &ChartController{chartService: chartService, nomicsService: nomicsService}
 }
 

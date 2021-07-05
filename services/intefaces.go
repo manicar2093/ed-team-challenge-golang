@@ -6,7 +6,7 @@ import (
 	"github.com/manicar2093/ed-team-go/models"
 )
 
-type ChartService interface {
+type ChartCreator interface {
 	CreateCryptoChart(nomicsResponse []models.NomicsResponse) (io.WriterTo, error)
 }
 
