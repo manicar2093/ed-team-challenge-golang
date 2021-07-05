@@ -16,12 +16,14 @@ func main() {
 
 	server := mux.NewRouter()
 
-	nomicsService := services.NewNomicsServiceWClient()
-	chartService := services.ChartService{}
+	nomicsService := services.NewNomicsServiceWClient(config.NomicsAPI)
+	chartService := services.ChartServiceImpl{}
 
 	controller := controllers.NewChartController(&chartService, nomicsService)
 
-	server.HandleFunc("/generate_chart", controller.CreateChartHandler).Methods(http.MethodGet)
+	server.HandleFunc("/generate_chart", controller.CreateChartHandler).Methods(http.MethodPost)
+
+	log.Printf("Server running on %s port\n", config.Port)
 
 	log.Fatal(http.ListenAndServe(config.Port, server))
 

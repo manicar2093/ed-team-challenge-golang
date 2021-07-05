@@ -5,10 +5,9 @@ This is the code for ed.tead challenge. It has many errors, but I make this in o
 ## How to run?
 
 It is needed the next Environment variables:
-- **FILES_PATH**: Indicates were charts will be saved in the server.
 - **NOMICS_KEY**: The key that will be used to communicate with Nomics API
 
-If one of this does not exist a **panic** will be raised indicating wich env variable is missing
+If this does not exist a **panic** will be raised indicating this missing env variable
 
 **NOTE:** The port to use will be 5000 so make sure you're not using it already.
 
@@ -18,7 +17,7 @@ make run
 ```
 or
 ```
-go run main.go
+go run cmd/api/main.go
 ```
 And that will be enough
 
@@ -32,14 +31,20 @@ The JSON is like this:
 }
 ```
 
-**IMPORTANT:** It is importan date has the RFC3339 format to be accepted. In the opposite case a 400 Bad Request will be responded with a JSON like this:
+## IMPORTANT CONSIDERATIONS: 
+- Dates must have the RFC3339 format to be accepted. In the opposite case a 400 Bad Request will be responded with a JSON like this:
 
 ```
 {
     "message": "request does not satisfy requirements. check documentation"
 }
 ```
+- If you request more than one currency chart might not look pretty well due currencies change amount. Consider request just one currency at a time.
 
 ## Comments
+This issue:
 
+```
 Yes, this has failures. I don't know why but the chart image can't be downloaded from Postman. Besides that I feel the code organizations is great and I'd like to have your review :D
+```
+Has been solved. :D
